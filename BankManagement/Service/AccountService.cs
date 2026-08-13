@@ -64,4 +64,27 @@ public class AccountService
         account.Balance += amount;
         return true;
     }
+
+    public bool Withdraw(int accountId, decimal amount)
+    {
+        var account = GetAccountById(accountId);
+        if (account is null || amount <= 0 || amount > account.Balance)
+            return false;
+
+        account.Balance -= amount;
+        return true;
+    }
+
+    public bool Transfer(int fromAccountId, int toAccountId, decimal amount)
+    {
+        var fromAccount = GetAccountById(fromAccountId);
+        var toAccount = GetAccountById(toAccountId);
+
+        if (fromAccount is null || toAccount is null || amount <= 0 || amount > fromAccount.Balance || fromAccount == toAccount)
+            return false;
+
+        fromAccount.Balance -= amount;
+        toAccount.Balance += amount;
+        return true;
+    }
 }
