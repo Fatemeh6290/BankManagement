@@ -10,8 +10,8 @@ public class TransactionServiceTests
     {
         //Arrange
         CustomerService customerService = new CustomerService();
-        AccountService accountService = new AccountService(customerService);
-        TransactionService transactionService = new TransactionService(accountService);
+        TransactionService transactionService = new TransactionService();       
+        AccountService accountService = new AccountService(customerService, transactionService);
 
         //Act
         transactionService.AddTransaction(1, TransactionType.Deposit, 300);
@@ -28,8 +28,8 @@ public class TransactionServiceTests
     {
         //Arrange
         CustomerService customerService = new CustomerService();
-        AccountService accountService = new AccountService(customerService);
-        TransactionService transactionService = new TransactionService(accountService);
+        TransactionService transactionService = new TransactionService();
+        AccountService accountService = new AccountService(customerService, transactionService);
 
         //Act
         transactionService.AddTransaction(1, TransactionType.Deposit, 300);
@@ -48,8 +48,9 @@ public class TransactionServiceTests
     {
         //Arrange
         CustomerService customerService = new CustomerService();
-        AccountService accountService = new AccountService(customerService);
-        TransactionService transactionService = new TransactionService(accountService);
+        TransactionService transactionService = new TransactionService();
+        AccountService accountService = new AccountService(customerService, transactionService);
+        
 
         //Act
         transactionService.AddTransaction(1, TransactionType.Deposit, 300);
@@ -68,8 +69,8 @@ public class TransactionServiceTests
     {
         //Arrange
         CustomerService customerService = new CustomerService();
-        AccountService accountService = new AccountService(customerService);
-        TransactionService transactionService = new TransactionService(accountService);
+        TransactionService transactionService = new TransactionService();
+        AccountService accountService = new AccountService(customerService, transactionService);
 
         //Act
         transactionService.AddTransaction(1, TransactionType.Deposit, 300);

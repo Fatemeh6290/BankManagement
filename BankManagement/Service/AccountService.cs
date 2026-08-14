@@ -6,12 +6,14 @@ namespace BankManagement.Service;
 public class AccountService
 {
     private readonly CustomerService _customerService;
+    private readonly TransactionService _transactionService;
     private readonly List<Account> _accounts = new ();
     private int _accountId = 1;
 
-    public AccountService(CustomerService customerService)
+    public AccountService(CustomerService customerService, TransactionService transactionService)
     {
         _customerService = customerService;
+        _transactionService = transactionService;
     }
 
     public bool AddAccount(int customerId, AccountType accountType)
@@ -62,6 +64,7 @@ public class AccountService
             return false;
 
         account.Balance += amount;
+        _transactionService.AddTransaction(accountId, TransactionType.Deposit, amount);
         return true;
     }
 
@@ -72,6 +75,7 @@ public class AccountService
             return false;
 
         account.Balance -= amount;
+        _transactionService.AddTransaction(accountId, TransactionType.Withdraw, amount);
         return true;
     }
 
@@ -85,6 +89,8 @@ public class AccountService
 
         fromAccount.Balance -= amount;
         toAccount.Balance += amount;
+        _transactionService.AddTransaction(fromAccountId, TransactionType.Transfer, amount);
+        _transactionService.AddTransaction(toAccountId, TransactionType.Deposit, amount);
         return true;
     }
 }

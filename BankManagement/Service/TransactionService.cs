@@ -6,13 +6,7 @@ namespace BankManagement.Service;
 public class TransactionService
 {
     public readonly List<Transaction> _transactions = new ();
-    private readonly AccountService _accountService;
     private int _transactionId = 1;
-
-    public TransactionService(AccountService accountService)
-    {
-        _accountService = accountService;
-    }
 
     public void AddTransaction(int accountId, TransactionType transactionType, decimal amount)
     {
