@@ -117,7 +117,7 @@ public class BankMenu
         }
         
         _customerService.AddCustomer(name, email);
-        Console.WriteLine("Customer add successfully.");
+        Console.WriteLine("Customer added successfully.");
     }
     
     private void ShowCustomer()
@@ -139,14 +139,7 @@ public class BankMenu
     
     private void SearchCustomerById()
     {
-        Console.WriteLine("Enter your customer ID:");
-        int.TryParse(Console.ReadLine(), out int customerId);
-        
-        if (customerId <= 0)
-        {
-            Console.WriteLine("Please enter a valid customer ID.");
-            return;
-        }
+        int customerId = ReadPositiveInt("Enter Customer Id:");
         
         var customer = _customerService.GetCustomerById(customerId);
 
@@ -186,14 +179,8 @@ public class BankMenu
     
     private void DeleteCustomer()
     {
-        Console.WriteLine("Enter your customer ID:");
-        int.TryParse(Console.ReadLine(), out int customerId);
+        int customerId = ReadPositiveInt("Enter Customer Id:");
         
-        if (customerId <= 0)
-        {
-            Console.WriteLine("Please enter a valid customer ID.");
-            return;
-        }
         
         var result = _customerService.DeleteCustomer(customerId);
 
@@ -260,14 +247,8 @@ public class BankMenu
     
     private void AddAccount()
     {
-        Console.WriteLine("Enter your customer ID:");
-        int.TryParse(Console.ReadLine(), out int customerId);
+        int customerId = ReadPositiveInt("Enter Customer Id:");
         
-        if (customerId <= 0)
-        {
-            Console.WriteLine("Please enter a valid customer ID.");
-            return;
-        }
         Console.WriteLine("Enter your Account type:");
         Console.WriteLine("0 - Checking");
         Console.WriteLine("1 - Savings");
@@ -284,11 +265,11 @@ public class BankMenu
 
         if (!result)
         {
-            Console.WriteLine("Account not add successfully."); 
+            Console.WriteLine("Account not added successfully."); 
             return;
         }
         
-        Console.WriteLine("Account add successfully.");
+        Console.WriteLine("Account added successfully.");
     }
     
     private void ShowAccounts()
@@ -310,14 +291,7 @@ public class BankMenu
     
     private void SearchAccount()
     {
-        Console.WriteLine("Enter your account ID:");
-        int.TryParse(Console.ReadLine(), out int accountId);
-        
-        if (accountId <= 0)
-        {
-            Console.WriteLine("Please enter a valid account ID.");
-            return;
-        }
+        int accountId = ReadPositiveInt("Enter account ID:");
         
         var account = _accountService.GetAccountById(accountId);
 
@@ -332,14 +306,7 @@ public class BankMenu
     
     private void DeleteAccount()
     {
-        Console.WriteLine("Enter your account ID:");
-        int.TryParse(Console.ReadLine(), out int accountId);
-        
-        if (accountId <= 0)
-        {
-            Console.WriteLine("Please enter a valid account ID.");
-            return;
-        }
+        int accountId = ReadPositiveInt("Enter account ID:");
         
         var result = _accountService.DeleteAccount(accountId);
 
@@ -354,23 +321,8 @@ public class BankMenu
 
     private void Deposit()
     {
-        Console.WriteLine("Enter your account ID:");
-        int.TryParse(Console.ReadLine(), out int accountId);
-        
-        if (accountId <= 0)
-        {
-            Console.WriteLine("Please enter a valid account ID.");
-            return;
-        }
-        
-        Console.WriteLine("Enter your amount:");
-        decimal.TryParse(Console.ReadLine(), out decimal amount);
-        
-        if (amount <= 0)
-        {
-            Console.WriteLine("Please enter a valid amount.");
-            return;
-        }
+        int accountId = ReadPositiveInt("Enter account ID:");
+        decimal amount = ReadPositiveDecimal("Enter transfer amount:");
         
         var result = _accountService.Deposit(accountId, amount);
 
@@ -385,23 +337,8 @@ public class BankMenu
 
     private void Withdraw()
     {
-        Console.WriteLine("Enter your account ID:");
-        int.TryParse(Console.ReadLine(), out int accountId);
-        
-        if (accountId <= 0)
-        {
-            Console.WriteLine("Please enter a valid account ID.");
-            return;
-        }
-        
-        Console.WriteLine("Enter your withdraw amount:");
-        decimal.TryParse(Console.ReadLine(), out decimal amount);
-        
-        if (amount <= 0)
-        {
-            Console.WriteLine("Please enter a valid withdraw amount.");
-            return;
-        }
+        int accountId = ReadPositiveInt("Enter account ID:");
+        decimal amount = ReadPositiveDecimal("Enter transfer amount:");
         
         var result = _accountService.Withdraw(accountId, amount);
 
@@ -416,32 +353,9 @@ public class BankMenu
 
     private void Transfer()
     {
-        Console.WriteLine("Enter your from account ID:");
-        int.TryParse(Console.ReadLine(), out int fromAccountId);
-        
-        if (fromAccountId <= 0)
-        {
-            Console.WriteLine("Please enter a valid account ID.");
-            return;
-        }
-        
-        Console.WriteLine("Enter your to account ID:");
-        int.TryParse(Console.ReadLine(), out int toAccountId);
-        
-        if (toAccountId <= 0)
-        {
-            Console.WriteLine("Please enter a valid account ID.");
-            return;
-        }
-        
-        Console.WriteLine("Enter your withdraw amount:");
-        decimal.TryParse(Console.ReadLine(), out decimal amount);
-        
-        if (amount <= 0)
-        {
-            Console.WriteLine("Please enter a valid withdraw amount.");
-            return;
-        }
+        int fromAccountId = ReadPositiveInt("Enter from account ID:");
+        int toAccountId = ReadPositiveInt("Enter to account ID:");
+        decimal amount = ReadPositiveDecimal("Enter transfer amount:");
         
         var result = _accountService.Transfer(fromAccountId, toAccountId, amount);
 
@@ -506,14 +420,7 @@ public class BankMenu
 
     private void SearchTransaction()
     {
-        Console.WriteLine("Enter your transaction ID:");
-        int.TryParse(Console.ReadLine(), out int transactionId);
-    
-        if (transactionId <= 0)
-        {
-            Console.WriteLine("Please enter a valid transaction ID.");
-            return;
-        }
+        int transactionId = ReadPositiveInt("Enter Transaktion Id:");
     
         var transaction = _transactionService.GetTransactionById(transactionId);
 
@@ -525,5 +432,30 @@ public class BankMenu
     
         Console.WriteLine($"Transaction Id:{transaction.TransactionId} - Account Id:{transaction.AccountId}" +
                           $" - Transaction Type:{transaction.TransactionType} - Amount:{transaction.Amount} - Date:{transaction.Date}");
+    }
+
+    private int ReadPositiveInt(string message)
+    {
+        while (true)
+        {
+            Console.WriteLine(message);
+            
+            if (int.TryParse(Console.ReadLine(), out int value) && value > 0)
+                return value;
+            
+            Console.WriteLine("Please enter a valid number");
+        }
+    }
+
+    private decimal ReadPositiveDecimal(string message)
+    {
+        while (true)
+        {
+            Console.WriteLine(message);
+            if (decimal.TryParse(Console.ReadLine(), out decimal value) && value > 0)
+                return value;
+            
+            Console.WriteLine("Please enter a valid number");
+        }
     }
 }

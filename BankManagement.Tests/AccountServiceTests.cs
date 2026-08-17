@@ -238,12 +238,17 @@ public class AccountServiceTests
         
         //Act
         var result = accountService.Deposit(1, 500);
-        var resultTransaction = transactionService.GetTransactions();
+        var transactions = transactionService.GetTransactions();
         
         //Assert
         Assert.True(result);
-        Assert.NotNull(resultTransaction);
-        Assert.Single(resultTransaction);
+        Assert.Single(transactions);
+
+        var transaction = transactions.First();
+
+        Assert.Equal(1, transaction.AccountId);
+        Assert.Equal(500, transaction.Amount);
+        Assert.Equal(TransactionType.Deposit, transaction.TransactionType);
     }
 
     [Fact]

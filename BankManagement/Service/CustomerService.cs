@@ -4,7 +4,7 @@ namespace BankManagement.Service;
 
 public class CustomerService
 {
-    private List<Customer> _customers = new();
+    private readonly List<Customer> _customers = new();
     private int _customerId = 1;
 
     public void AddCustomer(string name, string email)
@@ -22,9 +22,9 @@ public class CustomerService
         return _customers.ToList();
     }
 
-    public Customer? GetCustomerById(int CustomerId)
+    public Customer? GetCustomerById(int customerId)
     {
-        return _customers.FirstOrDefault(x => x.CustomerId == CustomerId);
+        return _customers.FirstOrDefault(x => x.CustomerId == customerId);
     }
 
     public bool DeleteCustomer(int id)
@@ -39,6 +39,6 @@ public class CustomerService
 
     public List<Customer> SearchCustomerByName(string name)
     {
-        return _customers.Where(x => x.Name.Contains(name)).ToList();
+        return _customers.Where(x => x.Name.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 }

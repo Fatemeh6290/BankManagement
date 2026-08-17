@@ -50,7 +50,7 @@ public class AccountService
     {
         var account = GetAccountById(accountId);
         
-        if (account == null)
+        if (account is null)
             return false;
         
         _accounts.Remove(account);

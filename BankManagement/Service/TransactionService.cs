@@ -5,12 +5,12 @@ namespace BankManagement.Service;
 
 public class TransactionService
 {
-    public readonly List<Transaction> _transactions = new ();
+    private readonly List<Transaction> _transactions = new ();
     private int _transactionId = 1;
 
     public void AddTransaction(int accountId, TransactionType transactionType, decimal amount)
     {
-        _transactions.Add(new Transaction()
+        _transactions.Add(new Transaction
         {
             TransactionId = _transactionId++,
             AccountId = accountId,
@@ -20,7 +20,7 @@ public class TransactionService
         });
     }
 
-    public List<Transaction> GetTransactions()
+    public IReadOnlyList<Transaction> GetTransactions()
     {
         return _transactions.ToList();
     }
